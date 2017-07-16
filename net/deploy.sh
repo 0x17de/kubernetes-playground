@@ -9,11 +9,7 @@ ETCD_CERT_ARGS="--cert-file /etc/etcd/kubernetes.pem --key-file /etc/etcd/kubern
 . ../config
 
 (set +e; etcdctl $ETCD_CERT_ARGS ls /kube-suse/network || etcdctl $ETCD_CERT_ARGS mkdir /kube-suse/network)
-etcdctl $ETCD_CERT_ARGS set /kube-suse/network/config "{ \"Network\": \"${POD_SUBNET}\" }"
-
-systemctl restart flanneld
-ssh node1 systemctl restart flanneld
-
+etcdctl $ETCD_CERT_ARGS set /kube-suse/network/config "{ \"Network\": \"${POD_SUBNET}\", \"SubnetLen\": 24, \"Backend\": { \"Type\": \"vxlan\" } }"
 
 systemctl enable flanneld
 systemctl restart flanneld

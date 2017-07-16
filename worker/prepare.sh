@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in docker flannel kubernetes-{client,node,node-cni,kubelet}; do
+for i in docker kubernetes-{client,node,node-cni,kubelet}; do
 	ssh node1 "rpm -q $i >/dev/null || zypper -n in $i"
 done
 

@@ -9,16 +9,6 @@ if [ "$answer" != "YES" ]; then
 fi
 echo -e "\e[32mScrubbing the decks.\e[0m"
 
-for i in kube-{scheduler,controller-manager,apiserver} flanneld etcd; do
-	systemctl stop $i
-	systemctl disable $i
-done
-
-for i in kube{-proxy,let} flanneld; do
-	ssh node1 systemctl stop $i
-	ssh node1 systemctl disable $i
-done
-
 rm -f envs/*
 rm -f ssl/*.pem
 rm -f ssl/*.csr
@@ -31,6 +21,18 @@ rm -f controller/scheduler
 rm -f worker/kubelet
 rm -f worker/kube-proxy
 
+[ ! -z "$ONLY_CFG" ] && exit 0
+
+for i in kube-{scheduler,controller-manager,apiserver} flanneld etcd; do
+	systemctl stop $i
+	systemctl disable $i
+done
+
+for i in kube{-proxy,let} flanneld; do
+	ssh node1 systemctl stop $i
+	ssh node1 systemctl disable $i
+done
+
 rm -rf /var/lib/kubernetes
 rm -rf /etc/kubernetes/*
 rm -rf ~/.kube/
@@ -41,5 +43,6 @@ ssh node1 rm -rf /var/lib/kubelet/*
 ssh node1 rm -rf /etc/kubernetes/*
 ssh node1 rm -rf /etc/etcd/*
 ssh node1 rm -rf ~/.kube/
+#ssh node1 rm -f /etc/systemd/system/docker.service.d/*flannel*.conf
 
 echo -e "\e[32mDONE.\e[0m"

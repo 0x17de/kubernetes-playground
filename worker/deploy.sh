@@ -20,16 +20,22 @@ scp kubelet kube-proxy node1:/etc/kubernetes/
 #}
 #}' /etc/sysconfig/docker"
 
-echo 'see /etc/sysconfig/docker:'
-echo -e '\e[35mTODO: DOCKER_OPTS="--iptables=false --ip-masq=false --host=unix:///var/run/docker.sock --log-level=error --storage-driver=overlay"\e[0m'
+#echo 'see /etc/sysconfig/docker:'
+#echo -e '\e[35mTODO: DOCKER_OPTS="--iptables=false --ip-masq=false --host=unix:///var/run/docker.sock --log-level=error --storage-driver=overlay"\e[0m'
 
 # cni modules
+ssh node1 'test -f /opt/cni/bin/flannel' ||
 ssh node1 '
 mkdir -p /opt/cni
-wget https://storage.googleapis.com/kubernetes-release/network-plugins/cni-amd64-0799f5732f2a11b329d9e3d51b9c8f2e3759f2ff.tar.gz -O cni.tar.gz
+wget -nv https://storage.googleapis.com/kubernetes-release/network-plugins/cni-amd64-0799f5732f2a11b329d9e3d51b9c8f2e3759f2ff.tar.gz -O cni.tar.gz
 tar -xf cni.tar.gz -C /opt/cni
 rm cni.tar.gz
 '
+
+#ssh node1 mkdir -p /etc/kubernetes/cni/net.d/
+#scp docker_opts_cni.env node1:/etc/kubernetes/cni/
+#scp systemd-flannel.conf node1:/etc/systemd/system/docker.service.d/40-flannel.conf
+#scp cni-flannel.conf node1:/etc/kubernetes/cni/net.d/10-flannel.conf
 
 ssh node1 systemctl enable docker
 ssh node1 systemctl restart docker && echo "== docker started" || echo "== docker failed"
