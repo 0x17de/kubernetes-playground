@@ -1,0 +1,5 @@
+--cluster-cidr=${POD_SUBNET}
+--masquerade-all=true
+--kubeconfig=/var/lib/kube-proxy/kube-proxy.kubeconfig
+--proxy-mode=iptables
+--v=2

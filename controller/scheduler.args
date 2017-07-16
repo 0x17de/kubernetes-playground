@@ -1,0 +1,3 @@
+--leader-elect=true
+--master=http://${INTERNAL_IP}:8080
+--v=2

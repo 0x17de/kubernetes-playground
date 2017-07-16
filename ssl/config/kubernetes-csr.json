@@ -1,0 +1,23 @@
+{
+  "CN": "kubernetes",
+  "hosts": [
+    "master",
+    "localhost",
+    "192.168.1.50",
+    "127.0.0.1",
+    "[::1]"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 4096
+  },
+  "names": [
+    {
+      "C": "DE",
+      "L": "Berlin",
+      "O": "Kubernetes",
+      "OU": "CA",
+      "ST": "Berlin"
+    }
+  ]
+}

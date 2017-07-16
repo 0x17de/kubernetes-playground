@@ -1,0 +1,14 @@
+--api-servers=${API_SERVERS}
+--allow-privileged=true
+--cluster-dns=${CLUSTER_DNS}
+--cluster-domain=cluster.local
+--container-runtime=docker
+--experimental-bootstrap-kubeconfig=/var/lib/kubelet/bootstrap.kubeconfig
+--network-plugin=kubenet
+--kubeconfig=/var/lib/kubelet/kubeconfig
+--serialize-image-pulls=false
+--register-node=true
+--tls-cert-file=/var/lib/kubelet/kubelet-client.crt
+--tls-private-key-file=/var/lib/kubelet/kubelet-client.key
+--cert-dir=/var/lib/kubelet
+--v=2
